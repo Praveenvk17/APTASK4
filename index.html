@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cricket-Themed Web Projects (Portfolio • To‑Do • Products)</title>
+  <style>
+    :root{
+      --bg:#0b1220;          /* deep navy */
+      --panel:#121a2b;       /* darker panel */
+      --muted:#9db0d1;       /* muted text */
+      --text:#e8eefc;        /* main text */
+      --accent:#19c37d;      /* bright green */
+      --accent-2:#4cc9f0;    /* light blue */
+      --danger:#ff6b6b;
+      --shadow:0 10px 30px rgba(0,0,0,.35);
+      --radius:18px;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font:16px/1.45 system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, 'Helvetica Neue', Arial;
+      background:radial-gradient(1200px 700px at 10% -10%, #1b2a4a 0%, transparent 50%),
+                 radial-gradient(900px 500px at 110% 10%, #152036 0%, transparent 40%),
+                 var(--bg);
+      color:var(--text);
+    }
+
+    /* Header / Nav */
+    header{
+      position:sticky; top:0; z-index:10;
+      backdrop-filter:saturate(140%) blur(8px);
+      background:rgba(11,18,32,.7);
+      border-bottom:1px solid rgba(255,255,255,.06);
+    }
+    .wrap{max-width:1100px; margin:auto; padding:18px 16px;}
+
+    .brand{display:flex; gap:12px; align-items:center;}
+    .logo{
+      width:40px; height:40px; border-radius:50%;
+      display:grid; place-items:center;
+      background:conic-gradient(from 210deg, var(--accent), var(--accent-2));
+      box-shadow:var(--shadow);
+      color:#081a12; font-weight:900;
+    }
+    .title{font-weight:800; letter-spacing:.3px}
+
+    nav{display:flex; flex-wrap:wrap; gap:10px; margin-top:12px}
+    .tab-btn{
+      border:1px solid rgba(255,255,255,.1);
+      background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01));
+      color:var(--text); padding:10px 14px; border-radius:999px; cursor:pointer;
+      transition:.2s transform ease, .2s background ease, .2s border-color ease;
+    }
+    .tab-btn:hover{transform:translateY(-1px); border-color:rgba(255,255,255,.25)}
+    .tab-btn.active{background:linear-gradient(180deg, rgba(76,201,240,.25), rgba(25,195,125,.2)); border-color:transparent}
+
+    /* Layout */
+    main{max-width:1100px; margin:24px auto; padding:0 16px 48px}
+    section{display:none}
+    section.active{display:block}
+
+    /* Cards & Utilities */
+    .grid{display:grid; gap:16px}
+    .grid.cols-3{grid-template-columns:repeat(3, 1fr)}
+    .grid.cols-2{grid-template-columns:repeat(2, 1fr)}
+    .card{
+      background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:var(--radius);
+      padding:18px; box-shadow:var(--shadow);
+    }
+    .card h3{margin:.2rem 0 .6rem}
+    .muted{color:var(--muted)}
+    .pill{display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border-radius:999px; border:1px solid rgba(255,255,255,.12)}
+    .row{display:flex; gap:12px; align-items:center; flex-wrap:wrap}
+    .spacer{height:12px}
+    .btn{background:var(--accent); border:none; color:#062616; padding:10px 14px; border-radius:12px; cursor:pointer; font-weight:700}
+    .btn.secondary{background:#1f2a44; color:var(--text); border:1px solid rgba(255,255,255,.12)}
+    .btn.danger{background:var(--danger); color:#2b0000}
+    input, select, textarea{
+      width:100%; padding:10px 12px; border-radius:12px; border:1px solid rgba(255,255,255,.14);
+      background:#0f1729; color:var(--text)
+    }
+    label{font-size:.95rem; color:var(--muted)}
+
+    /* Portfolio styles */
+    .hero{display:grid; grid-template-columns:1.2fr .8fr; gap:20px; align-items:center}
+    .hero h1{font-size:2rem; margin:.2rem 0}
+    .badge{background:rgba(25,195,125,.15); border:1px solid rgba(25,195,125,.35); color:#bff5df}
+
+    .projects .card{display:flex; flex-direction:column; gap:8px}
+
+    /* To‑Do styles */
+    .todo-app .new-task{display:grid; grid-template-columns:1.2fr .6fr auto; gap:10px}
+    .todo-list{display:grid; gap:10px; margin-top:12px}
+    .todo-item{display:grid; grid-template-columns:auto 1fr auto; gap:10px; align-items:center; padding:12px; border-radius:14px; border:1px solid rgba(255,255,255,.12); background:#0e1526}
+    .todo-item.done{opacity:.7; text-decoration:line-through}
+    .todo-actions{display:flex; gap:8px}
+    .filters{display:flex; gap:10px; flex-wrap:wrap; margin-top:10px}
+
+    /* Products */
+    .product-controls{display:grid; gap:10px; grid-template-columns:2fr 1.2fr 1fr 1fr}
+    .products.grid{grid-template-columns:repeat(4, 1fr)}
+    .product .price{font-weight:800}
+    .stars{letter-spacing:2px}
+
+    /* Contact form */
+    .contact-grid{display:grid; gap:16px; grid-template-columns:1fr 1fr}
+
+    footer{color:var(--muted); text-align:center; padding:30px 16px; border-top:1px solid rgba(255,255,255,.06)}
+
+    /* Responsive */
+    @media (max-width: 900px){
+      .grid.cols-3{grid-template-columns:1fr 1fr}
+      .products.grid{grid-template-columns:1fr 1fr 1fr}
+      .hero{grid-template-columns:1fr}
+      .product-controls{grid-template-columns:1fr 1fr}
+      .todo-app .new-task{grid-template-columns:1fr 1fr}
+      .contact-grid{grid-template-columns:1fr}
+    }
+    @media (max-width: 620px){
+      .grid.cols-2, .grid.cols-3{grid-template-columns:1fr}
+      .products.grid{grid-template-columns:1fr 1fr}
+      .product-controls{grid-template-columns:1fr}
+    }
+    @media (max-width: 420px){
+      .products.grid{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <div class="brand">
+        <div class="logo" aria-hidden="true">🏏</div>
+        <div>
+          <div class="title">Cricket Web Projects</div>
+          <div class="muted" style="font-size:.92rem">Portfolio • To‑Do (localStorage) • Products (filter & sort)</div>
+        </div>
+      </div>
+      <nav aria-label="Primary">
+        <button class="tab-btn active" data-section="portfolio">Portfolio</button>
+        <button class="tab-btn" data-section="todo">To‑Do / Notes</button>
+        <button class="tab-btn" data-section="products">Product Listing</button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <!-- 1) PERSONAL PORTFOLIO -->
+    <section id="portfolio" class="active" aria-labelledby="portfolio-title">
+      <div class="hero card">
+        <div>
+          <span class="pill badge">Cricket Portfolio</span>
+          <h1 id="portfolio-title">Praveen M — Frontend Learner & Cricket Enthusiast</h1>
+          <p class="muted">I build clean, responsive web UIs with a love for cricket analytics. This mini‑site showcases three projects: a portfolio, a to‑do/notes app with localStorage, and a product page with advanced filtering & sorting.</p>
+          <div class="spacer"></div>
+          <div class="row">
+            <button class="btn" data-section="products">View Cricket Gear</button>
+            <button class="btn secondary" data-section="todo">Open To‑Do App</button>
+          </div>
+        </div>
+        <div class="card" style="background:#0d1628">
+          <h3>About</h3>
+          <p class="muted">I enjoy turning cricket data into intuitive UX. Interests: score predictors, player performance dashboards, and coaching tools for training plans.</p>
+          <ul class="muted">
+            <li>Skills: HTML, CSS, JavaScript</li>
+            <li>Focus: Responsive UI, Local Storage, DOM manipulation</li>
+            <li>Theme: Cricket — bats, balls, pads, and player stats</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="spacer"></div>
+
+      <div class="projects">
+        <h2>Projects</h2>
+        <div class="grid cols-3">
+          <article class="card">
+            <h3>To‑Do / Notes (localStorage)</h3>
+            <p class="muted">Create, complete, edit, and delete tasks. Persisted in your browser under <code>localStorage</code>.</p>
+            <div class="row">
+              <button class="btn" data-section="todo">Open App</button>
+            </div>
+          </article>
+          <article class="card">
+            <h3>Cricket Gear Listing</h3>
+            <p class="muted">Filter by category/price/rating and sort results. All client‑side with accessible controls.</p>
+            <div class="row">
+              <button class="btn" data-section="products">Browse Gear</button>
+            </div>
+          </article>
+          <article class="card">
+            <h3>Contact</h3>
+            <p class="muted">Drop a message. This demo validates fields on the client only.</p>
+            <div class="row">
+              <a href="#contact" class="btn secondary" aria-label="Jump to contact form" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'}); return false;">Contact</a>
+            </div>
+          </article>
+        </div>
+      </div>
+
+      <div class="spacer"></div>
+
+      <div id="contact" class="card">
+        <h2>Contact</h2>
+        <form id="contactForm" novalidate class="contact-grid">
+          <div>
+            <label for="name">Name</label>
+            <input id="name" name="name" required placeholder="Your name" />
+          </div>
+          <div>
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" required placeholder="you@example.com" />
+          </div>
+          <div style="grid-column:1/-1">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" rows="4" required placeholder="Say hello!" ></textarea>
+          </div>
+          <div class="row" style="grid-column:1/-1; justify-content:flex-end">
+            <button class="btn" type="submit">Send (Demo)</button>
+            <button class="btn secondary" type="reset">Reset</button>
+          </div>
+        </form>
+        <p id="contactStatus" class="muted" role="status" aria-live="polite"></p>
+      </div>
+    </section>
+
+    <!-- 2) TO‑DO / NOTES with localStorage -->
+    <section id="todo" aria-labelledby="todo-title" class="todo-app">
+      <div class="card">
+        <span class="pill">Local Storage App</span>
+        <h2 id="todo-title">Match Prep To‑Do / Notes</h2>
+        <p class="muted">Plan your training: nets, fitness, drills. Tasks persist in your browser using <code>localStorage</code>.</p>
+
+        <div class="new-task">
+          <input id="taskTitle" placeholder="Task (e.g., \'Nets: short ball practice\')" />
+          <input id="taskNote" placeholder="Note (e.g., \'15 mins bouncers\')" />
+          <button id="addTaskBtn" class="btn" aria-label="Add task">Add</button>
+        </div>
+
+        <div class="filters">
+          <div class="pill"><label><input type="radio" name="view" value="all" checked> All</label></div>
+          <div class="pill"><label><input type="radio" name="view" value="active"> Active</label></div>
+          <div class="pill"><label><input type="radio" name="view" value="done"> Done</label></div>
+          <div class="pill"><label>Search <input id="searchTask" placeholder="Find task"></label></div>
+          <button id="clearDone" class="btn secondary" title="Remove completed tasks">Clear Done</button>
+          <button id="purgeAll" class="btn danger" title="Delete all tasks">Delete All</button>
+        </div>
+
+        <div id="todoList" class="todo-list" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <!-- 3) PRODUCT LISTING with filtering & sorting -->
+    <section id="products" aria-labelledby="products-title">
+      <div class="card">
+        <span class="pill">Cricket Store (Demo)</span>
+        <h2 id="products-title">Cricket Gear — Filter & Sort</h2>
+        <p class="muted">Filter by category, price, rating. Sort by price/name/rating. All client-side.</p>
+
+        <div class="product-controls">
+          <input id="search" placeholder="Search (e.g., \'bat\', \'Kookaburra\')" aria-label="Search products" />
+
+          <div>
+            <label for="category">Category</label>
+            <select id="category">
+              <option value="all">All</option>
+              <option>Bat</option>
+              <option>Ball</option>
+              <option>Pad</option>
+              <option>Glove</option>
+              <option>Helmet</option>
+              <option>Kit Bag</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="price">Max Price: <span id="priceVal"></span></label>
+            <input id="price" type="range" min="500" max="20000" step="100" value="20000" />
+          </div>
+
+          <div>
+            <label for="minRating">Min Rating</label>
+            <select id="minRating">
+              <option value="0">All</option>
+              <option value="3">3★+</option>
+              <option value="4">4★+</option>
+              <option value="4.5">4.5★+</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="row" style="margin-top:10px">
+          <div style="flex:1">
+            <label for="sort">Sort By</label>
+            <select id="sort">
+              <option value="rating-desc">Rating ↓</option>
+              <option value="price-asc">Price ↑</option>
+              <option value="price-desc">Price ↓</option>
+              <option value="name-asc">Name A→Z</option>
+            </select>
+          </div>
+          <button id="resetFilters" class="btn secondary" style="align-self:flex-end">Reset</button>
+        </div>
+
+        <div id="productGrid" class="products grid" style="margin-top:14px"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    Built with pure HTML, CSS, and JavaScript. Everything runs locally — no external files required.
+  </footer>
+
+  <script>
+    // ---------- Utility: Section Navigation (no external pages) ----------
+    const sections = Array.from(document.querySelectorAll('main section'));
+    const navButtons = Array.from(document.querySelectorAll('[data-section]'));
+
+    function showSection(id){
+      sections.forEach(s=>s.classList.toggle('active', s.id===id));
+      navButtons.forEach(b=>b.classList.toggle('active', b.dataset.section===id));
+      if(location.hash.replace('#','')!==id){
+        history.replaceState(null, '', '#'+id);
+      }
+    }
+    navButtons.forEach(btn=>btn.addEventListener('click', ()=> showSection(btn.dataset.section)));
+    window.addEventListener('load', ()=>{
+      const target = location.hash ? location.hash.replace('#','') : 'portfolio';
+      if(document.getElementById(target)) showSection(target);
+    });
+    window.addEventListener('hashchange', ()=>{
+      const target = location.hash.replace('#','');
+      if(document.getElementById(target)) showSection(target);
+    });
+
+    // ---------- Contact Form (client-side demo) ----------
+    const contactForm = document.getElementById('contactForm');
+    const contactStatus = document.getElementById('contactStatus');
+    contactForm?.addEventListener('submit', (e)=>{
+      e.preventDefault();
+      const fd = new FormData(contactForm);
+      const name = (fd.get('name')||'').toString().trim();
+      const email = (fd.get('email')||'').toString().trim();
+      const message = (fd.get('message')||'').toString().trim();
+      if(!name || !email || !message){
+        contactStatus.textContent = 'Please fill all fields.';
+        return;
+      }
+      // Demo only: pretend to send, store draft in localStorage so user keeps a copy
+      const drafts = JSON.parse(localStorage.getItem('contactDrafts')||'[]');
+      drafts.push({name, email, message, ts: new Date().toISOString()});
+      localStorage.setItem('contactDrafts', JSON.stringify(drafts));
+      contactStatus.textContent = 'Thanks! (Demo) Your message is saved locally as a draft.';
+      contactForm.reset();
+    });
+
+    // ---------- To‑Do / Notes with localStorage ----------
+    const LS_KEY = 'cricketTasks_v1';
+    const listEl = document.getElementById('todoList');
+    const titleEl = document.getElementById('taskTitle');
+    const noteEl = document.getElementById('taskNote');
+    const addBtn = document.getElementById('addTaskBtn');
+    const clearDoneBtn = document.getElementById('clearDone');
+    const purgeAllBtn = document.getElementById('purgeAll');
+    const searchTask = document.getElementById('searchTask');
+
+    function loadTasks(){
+      try{ return JSON.parse(localStorage.getItem(LS_KEY)) || []; }
+      catch{ return []; }
+    }
+    function saveTasks(tasks){ localStorage.setItem(LS_KEY, JSON.stringify(tasks)); }
+
+    function renderTasks(){
+      const tasks = loadTasks();
+      const view = document.querySelector('input[name="view"]:checked').value;
+      const q = (searchTask.value||'').toLowerCase();
+      const filtered = tasks.filter(t=>{
+        if(view==='active' && t.done) return false;
+        if(view==='done' && !t.done) return false;
+        if(q && !(t.title.toLowerCase().includes(q) || (t.note||'').toLowerCase().includes(q))) return false;
+        return true;
+      });
+
+      listEl.innerHTML = '';
+      if(filtered.length===0){
+        const empty = document.createElement('div');
+        empty.className='muted';
+        empty.textContent='No tasks yet. Add your first!';
+        listEl.appendChild(empty);
+        return;
+      }
+
+      filtered.forEach(task=>{
+        const item = document.createElement('div');
+        item.className = 'todo-item' + (task.done? ' done':'' );
+
+        const toggle = document.createElement('input');
+        toggle.type='checkbox'; toggle.checked=task.done; toggle.title='Mark done';
+        toggle.addEventListener('change', ()=>{
+          const all = loadTasks();
+          const idx = all.findIndex(x=>x.id===task.id);
+          if(idx>-1){ all[idx].done = toggle.checked; saveTasks(all); renderTasks(); }
+        });
+
+        const main = document.createElement('div');
+        const strong = document.createElement('div'); strong.textContent = task.title;
+        const small = document.createElement('div'); small.className='muted'; small.textContent = task.note||'';
+        main.appendChild(strong); main.appendChild(small);
+
+        const actions = document.createElement('div'); actions.className='todo-actions';
+        const edit = document.createElement('button'); edit.className='btn secondary'; edit.textContent='Edit';
+        edit.addEventListener('click', ()=>{
+          const nt = prompt('Edit task title', task.title);
+          if(nt===null) return; // cancel
+          const nn = prompt('Edit note', task.note||'');
+          const all = loadTasks(); const idx = all.findIndex(x=>x.id===task.id);
+          if(idx>-1){ all[idx].title = nt.trim()||all[idx].title; all[idx].note = (nn||'').trim(); saveTasks(all); renderTasks(); }
+        });
+        const del = document.createElement('button'); del.className='btn danger'; del.textContent='Delete';
+        del.addEventListener('click', ()=>{
+          const all = loadTasks().filter(x=>x.id!==task.id); saveTasks(all); renderTasks();
+        });
+
+        actions.append(edit, del);
+        item.append(toggle, main, actions);
+        listEl.appendChild(item);
+      });
+    }
+
+    addBtn?.addEventListener('click', ()=>{
+      const title = (titleEl.value||'').trim();
+      const note = (noteEl.value||'').trim();
+      if(!title){ titleEl.focus(); return; }
+      const tasks = loadTasks();
+      tasks.unshift({ id: crypto.randomUUID(), title, note, done:false, ts: Date.now() });
+      saveTasks(tasks); titleEl.value=''; noteEl.value=''; renderTasks();
+    });
+
+    document.querySelectorAll('input[name="view"]').forEach(r=> r.addEventListener('change', renderTasks));
+    searchTask?.addEventListener('input', renderTasks);
+
+    clearDoneBtn?.addEventListener('click', ()=>{
+      const tasks = loadTasks().filter(t=>!t.done); saveTasks(tasks); renderTasks();
+    });
+    purgeAllBtn?.addEventListener('click', ()=>{
+      if(confirm('Delete ALL tasks?')){ localStorage.removeItem(LS_KEY); renderTasks(); }
+    });
+
+    // Initial render when To‑Do tab is opened
+    const todoObserver = new MutationObserver(()=>{ if(document.getElementById('todo').classList.contains('active')) renderTasks(); });
+    todoObserver.observe(document.getElementById('todo'), {attributes:true});
+
+    // ---------- Product Listing (filter + sort) ----------
+    const PRODUCTS = [
+      { id:1, name:'Gray-Nicolls Legend Bat', category:'Bat', price:18999, rating:4.7 },
+      { id:2, name:'SG Test Batting Pads', category:'Pad', price:4599, rating:4.4 },
+      { id:3, name:'Kookaburra Pace Ball (Match)', category:'Ball', price:1299, rating:4.2 },
+      { id:4, name:'MRF Genius Chase Master Bat', category:'Bat', price:17499, rating:4.8 },
+      { id:5, name:'SS Master Blaster Gloves', category:'Glove', price:2799, rating:4.1 },
+      { id:6, name:'Shrey Armor 2.0 Helmet', category:'Helmet', price:5499, rating:4.5 },
+      { id:7, name:'SG Club Ball (Practice)', category:'Ball', price:699, rating:3.9 },
+      { id:8, name:'Adidas XT 2.0 Bat', category:'Bat', price:9999, rating:4.3 },
+      { id:9, name:'GM Original LE Pads', category:'Pad', price:5299, rating:4.6 },
+      { id:10, name:'Spartan Kit Bag Pro', category:'Kit Bag', price:3499, rating:4.0 },
+      { id:11, name:'SS TON Reserve Edition Bat', category:'Bat', price:15999, rating:4.5 },
+      { id:12, name:'Kookaburra Kahuna Gloves', category:'Glove', price:3199, rating:4.4 },
+      { id:13, name:'DSC Condor Helmet', category:'Helmet', price:4299, rating:4.1 },
+      { id:14, name:'New Balance DC 1080 Bat', category:'Bat', price:13999, rating:4.4 },
+      { id:15, name:'Puma evoSPEED Pads', category:'Pad', price:4899, rating:4.2 }
+    ];
+
+    const productGrid = document.getElementById('productGrid');
+    const search = document.getElementById('search');
+    const category = document.getElementById('category');
+    const price = document.getElementById('price');
+    const priceVal = document.getElementById('priceVal');
+    const minRating = document.getElementById('minRating');
+    const sortSel = document.getElementById('sort');
+    const resetBtn = document.getElementById('resetFilters');
+
+    function formatINR(n){ return '₹' + n.toLocaleString('en-IN'); }
+    function stars(r){ return '★'.repeat(Math.round(r)) + '☆'.repeat(5-Math.round(r)); }
+
+    function renderProducts(){
+      priceVal.textContent = formatINR(Number(price.value));
+      const q = (search.value||'').toLowerCase();
+      let items = PRODUCTS.filter(p=>
+        (category.value==='all' || p.category===category.value) &&
+        p.price <= Number(price.value) &&
+        p.rating >= Number(minRating.value) &&
+        (p.name.toLowerCase().includes(q))
+      );
+
+      switch(sortSel.value){
+        case 'price-asc': items.sort((a,b)=>a.price-b.price); break;
+        case 'price-desc': items.sort((a,b)=>b.price-a.price); break;
+        case 'name-asc': items.sort((a,b)=>a.name.localeCompare(b.name)); break;
+        default: // rating-desc
+          items.sort((a,b)=>b.rating-a.rating); break;
+      }
+
+      productGrid.innerHTML='';
+      if(items.length===0){
+        productGrid.innerHTML = '<p class="muted">No products match your filters.</p>';
+        return;
+      }
+
+      items.forEach(p=>{
+        const card = document.createElement('article');
+        card.className='card product';
+        card.innerHTML = `
+          <div class="row" style="justify-content:space-between">
+            <strong>${p.name}</strong>
+            <span class="pill">${p.category}</span>
+          </div>
+          <div class="muted">Premium ${p.category.toLowerCase()} for aspiring pros</div>
+          <div class="row" style="justify-content:space-between; margin-top:6px">
+            <div class="price">${formatINR(p.price)}</div>
+            <div class="stars" aria-label="Rating ${p.rating} out of 5">${stars(p.rating)} <span class="muted">(${p.rating.toFixed(1)})</span></div>
+          </div>
+          <div class="row" style="margin-top:8px">
+            <button class="btn">Add to Cart</button>
+            <button class="btn secondary" onclick="alert('Demo only')">Details</button>
+          </div>
+        `;
+        productGrid.appendChild(card);
+      });
+    }
+
+    [search, category, price, minRating, sortSel].forEach(el=> el.addEventListener('input', renderProducts));
+    resetBtn.addEventListener('click', ()=>{
+      search.value=''; category.value='all'; price.value=20000; minRating.value='0'; sortSel.value='rating-desc'; renderProducts();
+    });
+
+    // Render when Products tab becomes active
+    const productObserver = new MutationObserver(()=>{ if(document.getElementById('products').classList.contains('active')) renderProducts(); });
+    productObserver.observe(document.getElementById('products'), {attributes:true});
+
+    // Initial values
+    renderProducts();
+  </script>
+</body>
+</html>
